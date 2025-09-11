@@ -4,9 +4,16 @@ async function seed() {
   const conn = await pool.getConnection();
 
   try {
-    // Création des tables
+    // Suppression des tables dans l'ordre inverse des dépendances
+    await conn.query(`DROP TABLE IF EXISTS applications`);
+    await conn.query(`DROP TABLE IF EXISTS missions`);
+    await conn.query(`DROP TABLE IF EXISTS user_roles`);
+    await conn.query(`DROP TABLE IF EXISTS roles`);
+    await conn.query(`DROP TABLE IF EXISTS users`);
+
+    // Recréation des tables
     await conn.query(`
-      CREATE TABLE IF NOT EXISTS users (
+      CREATE TABLE users (
         id INT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(100),
         email VARCHAR(100) UNIQUE,
@@ -15,48 +22,48 @@ async function seed() {
     `);
 
     await conn.query(`
-      CREATE TABLE IF NOT EXISTS roles (
+      CREATE TABLE roles (
         id INT PRIMARY KEY AUTO_INCREMENT,
         name VARCHAR(50) UNIQUE
       );
     `);
 
     await conn.query(`
-      CREATE TABLE IF NOT EXISTS user_roles (
+      CREATE TABLE user_roles (
         user_id INT,
         role_id INT,
         PRIMARY KEY (user_id, role_id),
-        FOREIGN KEY (user_id) REFERENCES users(id),
-        FOREIGN KEY (role_id) REFERENCES roles(id)
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
       );
     `);
 
     await conn.query(`
-      CREATE TABLE IF NOT EXISTS missions (
+      CREATE TABLE missions (
         id INT PRIMARY KEY AUTO_INCREMENT,
         title VARCHAR(255),
         description TEXT,
         date DATE,
         association_id INT,
-        FOREIGN KEY (association_id) REFERENCES users(id)
+        FOREIGN KEY (association_id) REFERENCES users(id) ON DELETE CASCADE
       );
     `);
 
     await conn.query(`
-      CREATE TABLE IF NOT EXISTS applications (
+      CREATE TABLE applications (
         id INT PRIMARY KEY AUTO_INCREMENT,
         mission_id INT,
         volunteer_id INT,
         status ENUM('En attente', 'Acceptée', 'Refusée') DEFAULT 'En attente',
-        FOREIGN KEY (mission_id) REFERENCES missions(id),
-        FOREIGN KEY (volunteer_id) REFERENCES users(id)
+        FOREIGN KEY (mission_id) REFERENCES missions(id) ON DELETE CASCADE,
+        FOREIGN KEY (volunteer_id) REFERENCES users(id) ON DELETE CASCADE
       );
     `);
 
-    // Insertion des rôlesnode
-    await conn.query(
-      `INSERT IGNORE INTO roles (name) VALUES ('Bénévole'), ('Association')`
-    );
+    // Insertion des rôles
+    await conn.query(`
+      INSERT INTO roles (name) VALUES ('volunteer'), ('association');
+    `);
 
     // Insertion des utilisateurs
     await conn.query(`
@@ -93,7 +100,7 @@ async function seed() {
         (2, 1, 'Refusée');
     `);
 
-    console.log("Base initialisée avec succès !");
+    console.log("Base réinitialisée et peuplée avec succès !");
   } catch (err) {
     console.error("Erreur lors de l'initialisation :", err);
   } finally {

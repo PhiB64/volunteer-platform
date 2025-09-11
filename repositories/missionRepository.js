@@ -9,7 +9,13 @@ export class MissionRepository {
          VALUES (?, ?, ?, ?)`,
         [title, description, date, association_id]
       );
-      return { id: result.insertId, title, description, date, association_id };
+      return {
+        id: Number(result.insertId),
+        title,
+        description,
+        date,
+        association_id,
+      };
     } finally {
       conn.release();
     }
@@ -20,6 +26,18 @@ export class MissionRepository {
     try {
       const missions = await conn.query(`SELECT * FROM missions`);
       return missions;
+    } finally {
+      conn.release();
+    }
+  }
+
+  async findById(id) {
+    const conn = await pool.getConnection();
+    try {
+      const result = await conn.query(`SELECT * FROM missions WHERE id = ?`, [
+        id,
+      ]);
+      return result[0];
     } finally {
       conn.release();
     }

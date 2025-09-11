@@ -1,5 +1,5 @@
 import express from "express";
-import { MissionController } from "../controllers/missionController.js";
+import { MissionController } from "../controllers/MissionController.js";
 
 const router = express.Router();
 const controller = new MissionController();
