@@ -9,13 +9,40 @@ export class MissionRepository {
          VALUES (?, ?, ?, ?)`,
         [title, description, date, association_id]
       );
-      return {
-        id: Number(result.insertId),
-        title,
-        description,
-        date,
-        association_id,
-      };
+      return { id: result.insertId, title, description, date, association_id };
+    } finally {
+      conn.release();
+    }
+  }
+
+  async findAll() {
+    const conn = await pool.getConnection();
+    try {
+      const missions = await conn.query(`SELECT * FROM missions`);
+      return missions;
+    } finally {
+      conn.release();
+    }
+  }
+
+  async update(id, { title, description, date }) {
+    const conn = await pool.getConnection();
+    try {
+      await conn.query(
+        `UPDATE missions SET title = ?, description = ?, date = ? WHERE id = ?`,
+        [title, description, date, id]
+      );
+      return { id, title, description, date };
+    } finally {
+      conn.release();
+    }
+  }
+
+  async delete(id) {
+    const conn = await pool.getConnection();
+    try {
+      await conn.query(`DELETE FROM missions WHERE id = ?`, [id]);
+      return { message: `Mission ${id} supprimée` };
     } finally {
       conn.release();
     }

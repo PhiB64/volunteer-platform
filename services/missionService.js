@@ -5,7 +5,19 @@ export class MissionService {
     this.missionRepository = new MissionRepository();
   }
 
-  async createMission(missionData) {
-    return await this.missionRepository.create(missionData);
+  async createMission(data) {
+    return await this.missionRepository.create(data);
+  }
+
+  async getAllMissions() {
+    return await this.missionRepository.findAll();
+  }
+
+  async updateMission(id, data) {
+    return await this.missionRepository.update(id, data);
+  }
+
+  async deleteMission(id) {
+    return await this.missionRepository.delete(id);
   }
 }
