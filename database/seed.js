@@ -62,7 +62,7 @@ async function seed() {
 
     // Insertion des rôles
     await conn.query(`
-      INSERT INTO roles (name) VALUES ('volunteer'), ('association');
+      INSERT INTO roles (name) VALUES ('Bénévole'), ('Association');
     `);
 
     // Insertion des utilisateurs

@@ -6,19 +6,19 @@ import { authorizeRole } from "../middlewares/authorizeRole.js";
 const router = express.Router();
 const controller = new ApplicationController();
 
-router.post("/", authenticateToken, authorizeRole("volunteer"), (req, res) =>
+router.post("/", authenticateToken, authorizeRole("Bénévole"), (req, res) =>
   controller.apply(req, res)
 );
 router.put(
   "/:id",
   authenticateToken,
-  authorizeRole("association"),
+  authorizeRole("Association"),
   (req, res) => controller.updateStatus(req, res)
 );
 router.get(
   "/mission/:missionId",
   authenticateToken,
-  authorizeRole("association"),
+  authorizeRole("Association"),
   (req, res) => controller.getPending(req, res)
 );
 

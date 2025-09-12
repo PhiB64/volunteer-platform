@@ -6,19 +6,19 @@ import { authorizeRole } from "../middlewares/authorizeRole.js";
 const router = express.Router();
 const controller = new MissionController();
 
-router.post("/", authenticateToken, authorizeRole("association"), (req, res) =>
+router.post("/", authenticateToken, authorizeRole("Association"), (req, res) =>
   controller.createMission(req, res)
 );
 router.put(
   "/:id",
   authenticateToken,
-  authorizeRole("association"),
+  authorizeRole("Association"),
   (req, res) => controller.updateMission(req, res)
 );
 router.delete(
   "/:id",
   authenticateToken,
-  authorizeRole("association"),
+  authorizeRole("Association"),
   (req, res) => controller.deleteMission(req, res)
 );
 router.get("/", authenticateToken, (req, res) =>

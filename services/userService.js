@@ -43,4 +43,16 @@ export class UserService {
 
     return { token, user: { id: user.id, name: user.name, role: user.role } };
   }
+
+  async getAllUsers() {
+    return await this.userRepository.findAll();
+  }
+
+  async getUserById(id) {
+    return await this.userRepository.findById(id);
+  }
+
+  async getUsersByRole(roleName) {
+    return await this.userRepository.findByRole(roleName);
+  }
 }

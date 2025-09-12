@@ -18,14 +18,14 @@ export class ApplicationService {
     }
 
     const volunteer = await this.userRepository.findById(volunteer_id);
-    if (!volunteer || volunteer.role !== "volunteer") {
+    if (!volunteer || volunteer.role !== "Bénévole") {
       throw new Error("Bénévole introuvable ou rôle invalide");
     }
 
     const association = await this.userRepository.findById(
       mission.association_id
     );
-    if (!association || association.role !== "association") {
+    if (!association || association.role !== "Association") {
       throw new Error("Association introuvable ou rôle invalide");
     }
 

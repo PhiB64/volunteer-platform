@@ -7,10 +7,19 @@ export class ApplicationController {
 
   async apply(req, res) {
     try {
-      const { mission_id, volunteer_id } = req.body;
+      const { mission_id } = req.body;
+      const volunteer_id = req.user.id;
 
       if (!mission_id || !volunteer_id) {
         return res.status(400).json({ error: "Champs requis manquants" });
+      }
+
+      const alreadyApplied = await this.service.hasAlreadyApplied(
+        volunteer_id,
+        mission_id
+      );
+      if (alreadyApplied) {
+        return res.status(409).json({ error: "Déjà candidat à cette mission" });
       }
 
       const application = await this.service.apply({
