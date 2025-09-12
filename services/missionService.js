@@ -1,16 +1,16 @@
 import { MissionRepository } from "../repositories/missionRepository.js";
-import { UsersRepository } from "../repositories/usersRepository.js";
+import { UserRepository } from "../repositories/userRepository.js";
 
 export class MissionService {
   constructor() {
     this.missionRepository = new MissionRepository();
-    this.usersRepository = new UsersRepository();
+    this.userRepository = new UserRepository();
   }
 
   async createMission(data) {
     const { association_id } = data;
 
-    const association = await this.usersRepository.findById(association_id);
+    const association = await this.userRepository.findById(association_id);
     if (!association || association.role !== "association") {
       throw new Error("Association introuvable ou rôle invalide");
     }

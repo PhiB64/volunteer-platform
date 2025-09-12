@@ -1,12 +1,12 @@
 import { ApplicationRepository } from "../repositories/applicationRepository.js";
 import { MissionRepository } from "../repositories/missionRepository.js";
-import { UsersRepository } from "../repositories/usersRepository.js";
+import { UserRepository } from "../repositories/userRepository.js";
 
 export class ApplicationService {
   constructor() {
     this.repository = new ApplicationRepository();
     this.missionRepository = new MissionRepository();
-    this.usersRepository = new UsersRepository();
+    this.userRepository = new UserRepository();
   }
 
   async apply(data) {
@@ -17,12 +17,12 @@ export class ApplicationService {
       throw new Error("Mission introuvable");
     }
 
-    const volunteer = await this.usersRepository.findById(volunteer_id);
+    const volunteer = await this.userRepository.findById(volunteer_id);
     if (!volunteer || volunteer.role !== "volunteer") {
       throw new Error("Bénévole introuvable ou rôle invalide");
     }
 
-    const association = await this.usersRepository.findById(
+    const association = await this.userRepository.findById(
       mission.association_id
     );
     if (!association || association.role !== "association") {
