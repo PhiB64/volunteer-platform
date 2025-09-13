@@ -8,9 +8,21 @@ export class UserController {
   async register(req, res) {
     try {
       const user = await this.userService.register(req.body);
-      res.status(201).json({ message: "Utilisateur créé", user });
+      res.status(201).json({ message: "Utilisateur créé avec succès", user });
     } catch (err) {
-      res.status(400).json({ error: err.message });
+      // Gestion de l'erreur liée à l'email déjà utilisé
+      if (err.message === "Email déjà utilisé") {
+        return res.status(400).json({
+          error:
+            "Cet email est déjà associé à un compte. Veuillez en choisir un autre.",
+        });
+      }
+
+      // Gestion des autres erreurs
+      console.error("Erreur lors de l'inscription :", err);
+      res.status(500).json({
+        error: "Une erreur est survenue lors de la création du compte.",
+      });
     }
   }
 

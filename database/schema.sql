@@ -16,7 +16,7 @@ CREATE TABLE users (
   name VARCHAR(100) NOT NULL,
   email VARCHAR(100) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Table intermédiare
@@ -35,7 +35,7 @@ CREATE TABLE missions (
   title VARCHAR(200) NOT NULL,
   description TEXT NOT NULL,
   date DATE NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (association_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -45,8 +45,9 @@ CREATE TABLE applications (
   mission_id INT NOT NULL,
   volunteer_id INT NOT NULL,
   status ENUM('En attente', 'Acceptée', 'Refusée') DEFAULT 'En attente',
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (mission_id) REFERENCES missions(id) ON DELETE CASCADE,
-  FOREIGN KEY (volunteer_id) REFERENCES users(id) ON DELETE CASCADE
+  FOREIGN KEY (volunteer_id) REFERENCES users(id) ON DELETE CASCADE,
+  UNIQUE (mission_id, volunteer_id)
 );
 

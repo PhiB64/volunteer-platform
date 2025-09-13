@@ -14,17 +14,18 @@ async function seed() {
     // Recréation des tables
     await conn.query(`
       CREATE TABLE users (
-        id INT PRIMARY KEY AUTO_INCREMENT,
-        name VARCHAR(100),
-        email VARCHAR(100) UNIQUE,
-        password VARCHAR(255)
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(100) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
       );
     `);
 
     await conn.query(`
       CREATE TABLE roles (
         id INT PRIMARY KEY AUTO_INCREMENT,
-        name VARCHAR(50) UNIQUE
+        name VARCHAR(50) NOT NULL UNIQUE
       );
     `);
 
@@ -40,25 +41,27 @@ async function seed() {
 
     await conn.query(`
       CREATE TABLE missions (
-        id INT PRIMARY KEY AUTO_INCREMENT,
-        title VARCHAR(255),
-        description TEXT,
-        date DATE,
-        association_id INT,
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        association_id INT NOT NULL,
+        title VARCHAR(200) NOT NULL,
+        description TEXT NOT NULL,
+        date DATE NOT NULL,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (association_id) REFERENCES users(id) ON DELETE CASCADE
       );
     `);
 
     await conn.query(`
       CREATE TABLE applications (
-        id INT PRIMARY KEY AUTO_INCREMENT,
-        mission_id INT,
-        volunteer_id INT,
-        status ENUM('En attente', 'Acceptée', 'Refusée') DEFAULT 'En attente',
-        FOREIGN KEY (mission_id) REFERENCES missions(id) ON DELETE CASCADE,
-        FOREIGN KEY (volunteer_id) REFERENCES users(id) ON DELETE CASCADE
-      );
-    `);
+       id INT PRIMARY KEY AUTO_INCREMENT,
+      mission_id INT,
+      volunteer_id INT,
+      status ENUM('En attente', 'Acceptée', 'Refusée') DEFAULT 'En attente',
+      created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (mission_id) REFERENCES missions(id) ON DELETE CASCADE,
+      FOREIGN KEY (volunteer_id) REFERENCES users(id) ON DELETE CASCADE
+  );
+`);
 
     // Insertion des rôles
     await conn.query(`

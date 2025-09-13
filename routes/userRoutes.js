@@ -16,6 +16,7 @@ router.post("/login", validate(loginSchema), (req, res) =>
 router.post("/logout", authenticateToken, (req, res) =>
   controller.logout(req, res)
 );
+
 router.get("/", (req, res) => controller.getAllUsers(req, res));
 router.get("/:id", (req, res) => controller.getUserById(req, res));
 router.delete("/:id", (req, res) => controller.deleteUser(req, res));

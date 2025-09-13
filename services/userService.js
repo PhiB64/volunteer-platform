@@ -19,9 +19,15 @@ export class UserService {
       email,
       password: hashedPassword,
     });
-    await this.userRepository.assignRole(newUser.id, role);
 
-    return newUser;
+    const assignedRole = await this.userRepository.assignRole(newUser.id, role);
+
+    return {
+      id: newUser.id,
+      name: newUser.name,
+      email: newUser.email,
+      role: assignedRole,
+    };
   }
 
   async login({ email, password }) {

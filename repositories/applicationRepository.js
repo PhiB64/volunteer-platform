@@ -37,7 +37,22 @@ export class ApplicationRepository {
     const conn = await pool.getConnection();
     try {
       const rows = await conn.query(
-        `SELECT * FROM applications WHERE mission_id = ?`,
+        `
+      SELECT 
+        m.id AS mission_id,
+        a.id AS application_id,
+        a.status,
+        a.created_at,       
+        m.title AS mission_title,
+        m.date AS mission_date,
+        u.name AS volunteer_name,
+        u.email AS volunteer_email
+      FROM applications a
+      JOIN missions m ON a.mission_id = m.id
+      JOIN users u ON a.volunteer_id = u.id
+      WHERE a.mission_id = ? AND a.status = 'En attente'
+      ORDER BY a.created_at ASC
+      `,
         [missionId]
       );
       return rows;

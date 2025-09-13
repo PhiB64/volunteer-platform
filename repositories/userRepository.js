@@ -97,6 +97,7 @@ export class UserRepository {
         `INSERT INTO user_roles (user_id, role_id) VALUES (?, ?)`,
         [userId, roleId]
       );
+      return roleName;
     } finally {
       conn.release();
     }

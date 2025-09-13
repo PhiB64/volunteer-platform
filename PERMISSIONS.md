@@ -6,10 +6,10 @@ Ce document décrit les rôles disponibles dans l'application et les permissions
 
 ## Rôles Utilisateurs
 
-| Rôle            | Description                                                             |
-| --------------- | ----------------------------------------------------------------------- |
-| **Bénévole**    | Peut consulter les missions, postuler, voir ses candidatures            |
-| **Association** | Peut créer et gérer des missions, consulter et traiter les candidatures |
+| Rôle             | Description                                                             |
+| ---------------- | ----------------------------------------------------------------------- |
+| **Bénévoles**    | Peut consulter les missions, postuler, voir ses candidatures            |
+| **Associations** | Peut créer et gérer des missions, consulter et traiter les candidatures |
 
 ---
 
@@ -17,33 +17,34 @@ Ce document décrit les rôles disponibles dans l'application et les permissions
 
 ### Missions
 
-| Méthode | Route           | Bénévole | Association | Notes                          |
-| ------- | --------------- | -------- | ----------- | ------------------------------ |
-| GET     | `/missions`     | ✅       | ✅          | Liste des missions disponibles |
-| POST    | `/missions`     | ❌       | ✅          | Création de mission            |
-| PUT     | `/missions/:id` | ❌       | ✅          | Modification d’une mission     |
-| DELETE  | `/missions/:id` | ❌       | ✅          | Suppression d’une mission      |
+| Méthode | Route           | Bénévoles | Associations | Notes                          |
+| ------- | --------------- | --------- | ------------ | ------------------------------ |
+| GET     | `/missions`     | ✅        | ❌           | Liste des missions disponibles |
+| POST    | `/missions`     | ❌        | ✅           | Création de mission            |
+| PUT     | `/missions/:id` | ❌        | ✅           | Modification d’une mission     |
+| DELETE  | `/missions/:id` | ❌        | ✅           | Suppression d’une mission      |
 
 ---
 
 ### Applications (Candidatures)
 
-| Méthode | Route                              | Bénévole | Association | Notes                                             |
-| ------- | ---------------------------------- | -------- | ----------- | ------------------------------------------------- |
-| POST    | `/applications`                    | ✅       | ❌          | Postuler à une mission                            |
-| PUT     | `/applications/:id`                | ❌       | ✅          | Accepter ou refuser une candidature               |
-| GET     | `/applications/mission/:missionId` | ❌       | ✅          | Voir les candidatures en attente pour une mission |
-| GET     | `/applications`                    | ❌       | ✅          | Voir toutes les candidatures                      |
+| Méthode | Route                              | Bénévoles | Associations | Notes                                             |
+| ------- | ---------------------------------- | --------- | ------------ | ------------------------------------------------- |
+| POST    | `/applications`                    | ✅        | ❌           | Postuler à une mission                            |
+| PUT     | `/applications/:id`                | ❌        | ✅           | Accepter ou refuser une candidature               |
+| GET     | `/applications/mission/:missionId` | ❌        | ✅           | Voir les candidatures en attente pour une mission |
 
 ---
 
 ### Utilisateurs
 
-| Méthode | Route             | Bénévole | Association | Notes                                          |
-| ------- | ----------------- | -------- | ----------- | ---------------------------------------------- |
-| POST    | `/users/register` | ✅       | ✅          | Création de compte                             |
-| POST    | `/users/login`    | ✅       | ✅          | Connexion                                      |
-| GET     | `/users`          | ❌       | ❌          | Route réservée à des usages internes ou futurs |
+| Méthode | Route             | Bénévoles | Associations | Notes                                          |
+| ------- | ----------------- | --------- | ------------ | ---------------------------------------------- |
+| POST    | `/users/register` | ✅        | ✅           | Création de compte                             |
+| POST    | `/users/login`    | ✅        | ✅           | Connexion                                      |
+| GET     | `/users`          | ❌        | ❌           | Route réservée à des usages internes ou futurs |
+| GET     | `/users/:id`      | ❌        | ❌           | Route réservée à des usages internes ou futurs |
+| GET     | `/users/?role=`   | ❌        | ❌           | Route réservée à des usages internes ou futurs |
 
 ---
 
@@ -58,8 +59,8 @@ Ce document décrit les rôles disponibles dans l'application et les permissions
 
 - Les rôles sont stockés dans la base de données et vérifiés à chaque requête protégée
 - Les cookies sont utilisés pour stocker le token JWT côté client
-- Les erreurs de permission renvoient un code HTTP `403 Forbidden` et le message d'erreur `Accès interdit : rôle insuffisant`
-- Les erreurs d’authentification renvoient un code HTTP `401 Unauthorized` et le message d'erreur `Token manquant`
-  ou un code HTTP `403 Forbidden` et le message d'erreur `Token invalide ou expiré`
+- Les erreurs de permission renvoient un code HTTP `403 Forbidden` et le message d'erreur `Accès interdit : reservé aux (Associations ou Bénévoles)`
+- Les erreurs d’authentification renvoient un code HTTP `401 Unauthorized` et le message d'erreur `Authentification requise. Veuillez vous connecter.`
+  ou un code HTTP `403 Forbidden` et le message d'erreur `Authentification invalide. Merci de vous reconnecter.`
 
 ---
