@@ -18,14 +18,14 @@ export class ApplicationService {
     }
 
     const volunteer = await this.userRepository.findById(volunteer_id);
-    if (!volunteer || volunteer.role !== "Bénévole") {
+    if (!volunteer || volunteer.role !== "Bénévoles") {
       throw new Error("Bénévole introuvable ou rôle invalide");
     }
 
     const association = await this.userRepository.findById(
       mission.association_id
     );
-    if (!association || association.role !== "Association") {
+    if (!association || association.role !== "Associations") {
       throw new Error("Association introuvable ou rôle invalide");
     }
 
@@ -56,5 +56,13 @@ export class ApplicationService {
 
     const applications = await this.repository.findByMissionId(missionId);
     return applications;
+  }
+
+  async hasAlreadyApplied(missionId, volunteerId) {
+    const existing = await this.repository.findByMissionAndVolunteer(
+      missionId,
+      volunteerId
+    );
+    return !!existing;
   }
 }

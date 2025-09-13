@@ -36,11 +36,11 @@ export class ApplicationRepository {
   async findByMissionId(missionId) {
     const conn = await pool.getConnection();
     try {
-      const result = await conn.query(
-        `SELECT * FROM applications WHERE mission_id = ? `,
+      const rows = await conn.query(
+        `SELECT * FROM applications WHERE mission_id = ?`,
         [missionId]
       );
-      return result;
+      return rows;
     } finally {
       conn.release();
     }
@@ -49,41 +49,23 @@ export class ApplicationRepository {
   async findById(id) {
     const conn = await pool.getConnection();
     try {
-      const result = await conn.query(
-        `SELECT * FROM applications WHERE id = ?`,
-        [id]
-      );
-      return result[0];
+      const rows = await conn.query(`SELECT * FROM applications WHERE id = ?`, [
+        id,
+      ]);
+      return rows.length > 0 ? rows[0] : null;
     } finally {
       conn.release();
     }
   }
 
-  async findByEmail(email) {
+  async findByMissionAndVolunteer(missionId, volunteerId) {
     const conn = await pool.getConnection();
     try {
-      const result = await conn.query(
-        `SELECT u.*, r.name AS role
-       FROM users u
-       JOIN user_roles ur ON u.id = ur.user_id
-       JOIN roles r ON ur.role_id = r.id
-       WHERE u.email = ?`,
-        [email]
+      const rows = await conn.query(
+        `SELECT * FROM applications WHERE mission_id = ? AND volunteer_id = ?`,
+        [missionId, volunteerId]
       );
-      return result[0];
-    } finally {
-      conn.release();
-    }
-  }
-
-  async createUser({ name, email, password }) {
-    const conn = await pool.getConnection();
-    try {
-      const result = await conn.query(
-        `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
-        [name, email, password]
-      );
-      return { id: result.insertId, name, email };
+      return rows.length > 0 ? rows[0] : null;
     } finally {
       conn.release();
     }

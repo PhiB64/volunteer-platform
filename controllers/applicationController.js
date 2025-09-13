@@ -15,8 +15,8 @@ export class ApplicationController {
       }
 
       const alreadyApplied = await this.service.hasAlreadyApplied(
-        volunteer_id,
-        mission_id
+        mission_id,
+        volunteer_id
       );
       if (alreadyApplied) {
         return res.status(409).json({ error: "Déjà candidat à cette mission" });

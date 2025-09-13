@@ -3,7 +3,7 @@ export function authorizeRole(requiredRole) {
     if (!req.user || req.user.role !== requiredRole) {
       return res
         .status(403)
-        .json({ error: "Accès interdit : rôle insuffisant" });
+        .json({ error: `Accès interdit : reservé aux ${requiredRole}` });
     }
     next();
   };

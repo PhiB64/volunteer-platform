@@ -11,7 +11,7 @@ export class MissionService {
     const { association_id } = data;
 
     const association = await this.userRepository.findById(association_id);
-    if (!association || association.role !== "Association") {
+    if (!association || association.role !== "Associations") {
       throw new Error("Association introuvable ou rôle invalide");
     }
 

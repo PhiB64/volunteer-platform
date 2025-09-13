@@ -55,4 +55,11 @@ export class UserService {
   async getUsersByRole(roleName) {
     return await this.userRepository.findByRole(roleName);
   }
+
+  async deleteUser(id) {
+    const affected = await this.userRepository.deleteById(id);
+    if (affected === 0) {
+      throw new Error("Utilisateur introuvable");
+    }
+  }
 }

@@ -62,7 +62,7 @@ async function seed() {
 
     // Insertion des rôles
     await conn.query(`
-      INSERT INTO roles (name) VALUES ('Bénévole'), ('Association');
+      INSERT INTO roles (name) VALUES ('Bénévoles'), ('Associations');
     `);
 
     // Insertion des utilisateurs
@@ -71,7 +71,11 @@ async function seed() {
       VALUES 
         ('Alice', 'alice@volunteer.com', 'hashed_pw1'),
         ('Bob', 'bob@volunteer.com', 'hashed_pw2'),
-        ('Solidarité 33', 'contact@solidarite33.org', 'hashed_pw3');
+        ('Solidarité 33', 'contact@solidarite33.org', 'hashed_pw3'),
+        ('Claire', 'claire@volunteer.com', 'hashed_pw4'),
+        ('Jean', 'jean@volunteer.com', 'hashed_pw5'),
+        ('Aide Humanitaire 64', 'contact@ah64.org', 'hashed_pw6'),
+        ('Entraide Sud-Ouest', 'contact@entraide-so.org', 'hashed_pw7');
     `);
 
     // Attribution des rôles
@@ -80,7 +84,11 @@ async function seed() {
       VALUES 
         (1, 1),
         (2, 1),
-        (3, 2);
+        (3, 2),
+        (4, 1),
+        (5, 1),
+        (6, 2),
+        (7, 2);
     `);
 
     // Insertion des missions
@@ -88,16 +96,26 @@ async function seed() {
       INSERT INTO missions (title, description, date, association_id)
       VALUES 
         ('Collecte alimentaire', 'Aide à la distribution de colis', '2025-09-15', 3),
-        ('Nettoyage de plage', 'Sensibilisation et ramassage des déchets', '2025-09-20', 3);
+        ('Nettoyage de plage', 'Sensibilisation et ramassage des déchets', '2025-09-20', 3),
+        ('Distribution de vêtements', 'Tri et distribution pour les sans-abris', '2025-09-25', 6),
+        ('Atelier numérique', 'Aide aux démarches en ligne pour seniors', '2025-09-30', 7),
+        ('Collecte de jouets', 'Organisation d’une collecte pour Noël', '2025-10-05', 6);
     `);
 
-    // Insertion des candidatures
+    // Insertion des candidatures (apllications)
     await conn.query(`
       INSERT INTO applications (mission_id, volunteer_id, status)
       VALUES 
         (1, 1, 'En attente'),
         (1, 2, 'Acceptée'),
-        (2, 1, 'Refusée');
+        (2, 1, 'Refusée'),
+        (3, 4, 'En attente'),  
+        (4, 5, 'Acceptée'),    
+        (5, 1, 'En attente'),  
+        (5, 2, 'Refusée'),     
+        (2, 4, 'Acceptée');    
+
+
     `);
 
     console.log("Base réinitialisée et peuplée avec succès !");

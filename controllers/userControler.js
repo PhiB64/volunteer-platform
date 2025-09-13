@@ -72,4 +72,16 @@ export class UserController {
       res.status(500).json({ error: err.message });
     }
   }
+
+  async deleteUser(req, res) {
+    try {
+      const result = await this.userService.deleteUser(req.params.id);
+      res
+        .status(200)
+        .json({ message: "Utilisateur supprimé avec succès", result });
+    } catch (err) {
+      const status = err.message === "Utilisateur introuvable" ? 404 : 500;
+      res.status(status).json({ error: err.message });
+    }
+  }
 }
