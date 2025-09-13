@@ -2,7 +2,21 @@
 
 Plateforme web permettant aux bénévoles de postuler à des missions proposées par des associations. Les associations peuvent ensuite accepter ou refuser les candidatures.
 
+## Fonctionnalités
+
+- Inscription et connexion sécurisée (JWT)
+- Rôles utilisateurs : Bénévoles et Associations
+- Création de missions par les associations
+- Candidature des bénévoles aux missions
+- Acceptation ou refus des candidatures
+- Filtrage des candidatures par statut
+- Validation des données avec Joi
+- Documentation API via Postman
+
 Consultez la [documentation des permissions](./PERMISSIONS.md) pour comprendre les rôles et accès.
+
+La documentation complète de l'API est disponible sur Postman :  
+[Consulter la documentation](https://documenter.getpostman.com/view/46341307/2sB3Hooz3h)
 
 ---
 
