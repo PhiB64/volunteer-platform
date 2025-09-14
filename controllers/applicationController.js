@@ -38,7 +38,7 @@ export class ApplicationController {
         return res.status(404).json({ error: error.message });
       }
 
-      console.error("Erreur postulation :", error);
+      console.error("Erreur candidature :", error);
       res.status(500).json({ error: "Erreur serveur" });
     }
   }
