@@ -66,3 +66,4 @@ export class MissionRepository {
     }
   }
 }
+export default new MissionRepository();

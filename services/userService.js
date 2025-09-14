@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { UserRepository } from "../repositories/userRepository.js";
+import userRepository from "../repositories/userRepository.js";
 
 export class UserService {
-  constructor() {
-    this.userRepository = new UserRepository();
+  constructor(userRepository) {
+    this.userRepository = userRepository;
   }
 
   async register({ name, email, password, role }) {
@@ -69,3 +69,4 @@ export class UserService {
     }
   }
 }
+export default new UserService(userRepository);

@@ -1,8 +1,8 @@
-import { ApplicationService } from "../services/applicationService.js";
+import applicationService from "../services/applicationService.js";
 
 export class ApplicationController {
-  constructor() {
-    this.service = new ApplicationService();
+  constructor(applicationService) {
+    this.service = applicationService;
   }
 
   async apply(req, res) {
@@ -86,3 +86,4 @@ export class ApplicationController {
     }
   }
 }
+export default new ApplicationController(applicationService);

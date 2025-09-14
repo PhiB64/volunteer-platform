@@ -1,8 +1,8 @@
-import { UserService } from "../services/userService.js";
+import userService from "../services/userService.js";
 
 export class UserController {
-  constructor() {
-    this.userService = new UserService();
+  constructor(userService) {
+    this.userService = userService;
   }
 
   async register(req, res) {
@@ -97,3 +97,4 @@ export class UserController {
     }
   }
 }
+export default new UserController(userService);

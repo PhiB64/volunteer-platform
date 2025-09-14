@@ -1,10 +1,10 @@
-import { MissionRepository } from "../repositories/missionRepository.js";
-import { UserRepository } from "../repositories/userRepository.js";
+import missionRepository from "../repositories/missionRepository.js";
+import userRepository from "../repositories/userRepository.js";
 
 export class MissionService {
-  constructor() {
-    this.missionRepository = new MissionRepository();
-    this.userRepository = new UserRepository();
+  constructor(missionRepository, userRepository) {
+    this.missionRepository = missionRepository;
+    this.userRepository = userRepository;
   }
 
   async createMission(data) {
@@ -40,3 +40,4 @@ export class MissionService {
     return await this.missionRepository.delete(id);
   }
 }
+export default new MissionService(missionRepository, userRepository);

@@ -1,12 +1,12 @@
-import { ApplicationRepository } from "../repositories/applicationRepository.js";
-import { MissionRepository } from "../repositories/missionRepository.js";
-import { UserRepository } from "../repositories/userRepository.js";
+import applicationRepository from "../repositories/applicationRepository.js";
+import missionRepository from "../repositories/missionRepository.js";
+import userRepository from "../repositories/userRepository.js";
 
 export class ApplicationService {
-  constructor() {
-    this.repository = new ApplicationRepository();
-    this.missionRepository = new MissionRepository();
-    this.userRepository = new UserRepository();
+  constructor(applicationRepository, missionRepository, userRepository) {
+    this.repository = applicationRepository;
+    this.missionRepository = missionRepository;
+    this.userRepository = userRepository;
   }
 
   async apply(data) {
@@ -66,3 +66,8 @@ export class ApplicationService {
     return !!existing;
   }
 }
+export default new ApplicationService(
+  applicationRepository,
+  missionRepository,
+  userRepository
+);

@@ -86,3 +86,4 @@ export class ApplicationRepository {
     }
   }
 }
+export default new ApplicationRepository();

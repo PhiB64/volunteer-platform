@@ -1,8 +1,8 @@
-import { MissionService } from "../services/missionService.js";
+import missionService from "../services/missionService.js";
 
 export class MissionController {
-  constructor() {
-    this.missionService = new MissionService();
+  constructor(missionService) {
+    this.missionService = missionService;
   }
 
   async createMission(req, res) {
@@ -77,3 +77,4 @@ export class MissionController {
     }
   }
 }
+export default new MissionController(missionService);
